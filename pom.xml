@@ -109,8 +109,10 @@
             <version>3.0.3</version>
         </dependency>
         <!-- Swagger API文档 结束 -->
-
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>

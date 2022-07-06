@@ -40,7 +40,7 @@ public class Result<T> {
 
     public Result(int code, String msg) {
         this.setCode(code);
-        this.setData(data);
+        this.setMsg(msg);
     }
 
     public static <T> Result<T> success() {
@@ -58,6 +58,10 @@ public class Result<T> {
 
     public static <T> Result<T> fail(ResultEnum resultEnum, String msg) {
         return new Result<T>(resultEnum.getCode(), msg);
+    }
+
+    public static <T> Result<T> fail(int code, String msg) {
+        return new Result<T>(code, msg);
     }
 
     public static <T> Result<T> fail(String msg) {

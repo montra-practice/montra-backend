@@ -1,12 +1,13 @@
 package com.epam.conf;
 
+import com.epam.interceptor.LoginInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurationSupport {
+@EnableWebMvc
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -20,21 +21,22 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(loginInterceptor())//添加拦截器
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/user/**", "**/error/**", "/error", "/error/**")
-//                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
-//        WebMvcConfigurer.super.addInterceptors(registry);
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor())//添加拦截器
+                .addPathPatterns("/**")
+                .excludePathPatterns("/user/**", "**/error/**", "/error", "/error/**", "/test/**")
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/doc.html",
+                        "**/error/**", "/swagger-ui.html/**");
+        WebMvcConfigurer.super.addInterceptors(registry);
+    }
 
-//    @Bean
-//    public LoginInterceptor loginInterceptor() {
-//        return new LoginInterceptor();
-//    }
+    @Bean
+    public LoginInterceptor loginInterceptor() {
+        return new LoginInterceptor();
+    }
 }
