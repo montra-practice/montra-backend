@@ -2,7 +2,8 @@ package com.epam.service.impl;
 
 import com.epam.dao.UserRepository;
 import com.epam.data.User;
-import com.epam.dto.UserDTO;
+import com.epam.dto.UserLoginDTO;
+import com.epam.dto.UserRegisterDTO;
 import com.epam.exception.CustomException;
 import com.epam.service.UserService;
 import com.epam.utils.JWTUtil;
@@ -40,21 +41,21 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户登录
      *
-     * @param userDTO
+     * @param userLoginDTO
      * @return
      * @Author taoz
      * @Date 2022/7/6 11:14
      **/
     @Override
-    public Result login(UserDTO userDTO) {
-        if (StringUtils.isAnyEmpty(userDTO.getUsername(), userDTO.getPassword())) {
+    public Result login(UserLoginDTO userLoginDTO) {
+        if (StringUtils.isAnyEmpty(userLoginDTO.getUsername(), userLoginDTO.getPassword())) {
             throw new CustomException("username password null");
         }
-        User user = userRepository.findOneByName(userDTO.getUsername());
+        User user = userRepository.findOneByName(userLoginDTO.getUsername());
         if (null == user) {
             throw new CustomException("username password error");
         }
-        if (userDTO.getPassword().equals(user.getPassword())) {
+        if (userLoginDTO.getPassword().equals(user.getPassword())) {
             String token = JWTUtil.createToken(user.getId(), user.getName());
             return Result.success(token);
         }
@@ -64,23 +65,23 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户注册
      *
-     * @param userDTO
+     * @param userRegisterDTO
      * @return
      * @Author taoz
      * @Date 2022/7/6 11:14
      **/
     @Override
-    public Result register(UserDTO userDTO) {
-        if (StringUtils.isAnyEmpty(userDTO.getUsername(), userDTO.getPassword())) {
+    public Result register(UserRegisterDTO userRegisterDTO) {
+        if (StringUtils.isAnyEmpty(userRegisterDTO.getUsername(), userRegisterDTO.getPassword())) {
             throw new CustomException("username password null");
         }
-        User user = userRepository.findOneByName(userDTO.getUsername());
+        User user = userRepository.findOneByName(userRegisterDTO.getUsername());
         if (null != user) {
             throw new CustomException("user exist");
         }
         User userTosave = new User();
-        userTosave.setName(userDTO.getUsername());
-        userTosave.setPassword(userDTO.getPassword());
+        userTosave.setName(userRegisterDTO.getUsername());
+        userTosave.setPassword(userRegisterDTO.getPassword());
         userRepository.save(userTosave);
         return Result.success();
     }

@@ -1,7 +1,6 @@
 package com.epam.controller;
 
 import com.epam.data.Category;
-import com.epam.dto.UserDTO;
 import com.epam.service.CategoryService;
 import com.epam.utils.Result;
 import io.swagger.annotations.Api;
