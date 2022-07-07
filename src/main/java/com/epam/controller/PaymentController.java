@@ -20,7 +20,7 @@ import static com.epam.constant.Constants.API_PREFIX;
 @RestController
 @Api(tags = "PaymentController")
 @Slf4j
-@RequestMapping(API_PREFIX + "/payments")
+@RequestMapping("/payments")
 public class PaymentController {
 
     @Autowired

@@ -19,7 +19,7 @@ import static com.epam.constant.Constants.API_PREFIX;
 @RestController
 @Api(tags = "BillController")
 @Slf4j
-@RequestMapping(API_PREFIX + "/bills")
+@RequestMapping("/bills")
 public class BillController {
 
     @Autowired

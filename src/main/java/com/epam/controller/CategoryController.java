@@ -23,7 +23,7 @@ import static com.epam.constant.Constants.API_PREFIX;
 @RestController
 @Api(tags = "CategoryController")
 @Slf4j
-@RequestMapping(API_PREFIX + "/categories")
+@RequestMapping("/categories")
 public class CategoryController {
 
     @Autowired
