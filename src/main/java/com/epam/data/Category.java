@@ -13,5 +13,5 @@ import java.util.Date;
 public class Category extends EntityBase implements Serializable {
 
     @Column(nullable = false)
-    public String name;
+    private String name;
 }

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.epam.constant.Constants.API_PREFIX;
+
 /**
  * @description: Category
  * @author: Nickt
@@ -22,7 +24,7 @@ import java.util.List;
 @RestController
 @Api(tags = "CategoryController")
 @Slf4j
-@RequestMapping("/categories")
+@RequestMapping(API_PREFIX + "/categories")
 public class CategoryController {
 
     @Autowired
@@ -31,8 +33,8 @@ public class CategoryController {
     @ApiOperation(value = "get categories", notes = "get all categories")
     @GetMapping
     public Result getAllCategories() {
-        if (log.isDebugEnabled()) {
-            log.debug("call get all categories");
+        if (log.isInfoEnabled()) {
+            log.info("call get all categories");
         }
         List<Category> allCategories = categoryService.getAllCategories();
         return Result.success(allCategories);

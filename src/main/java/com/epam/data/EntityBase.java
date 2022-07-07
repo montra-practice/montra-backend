@@ -1,29 +1,31 @@
 package com.epam.data;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @MappedSuperclass
+@Data
 public abstract class EntityBase {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
     @Column
-    public String creator;
+    private String creator;
 
     @Column
-    public String modifier;
+    private String modifier;
 
     @Column
     @ApiModelProperty("create time")
-    public Date gmtCreate;
+    private Date gmtCreate;
 
     @Column
     @ApiModelProperty("modify time")
-    public Date gmtModify;
+    private Date gmtModify;
 }

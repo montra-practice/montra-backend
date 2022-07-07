@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,18 +14,21 @@ import java.util.Date;
 public class Bill extends EntityBase implements Serializable {
 
     @Column(nullable = false)
-    public Long categoryId;
+    private Long categoryId;
 
     @Column(nullable = false)
-    public Long paymentId;
+    private Long paymentId;
+
+    @Column(nullable = false)
+    private Long userId;
 
     @Column(name="`repeat`")
-    public Boolean repeat;
+    private Boolean repeat;
 
     @Column
-    public String frequency;
+    private String frequency;
 
     @Column
-    public String endAfter;
+    private String endAfter;
 
 }

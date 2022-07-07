@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.epam.constant.Constants.API_PREFIX;
+
 @RestController
 @Api(tags = "PaymentController")
 @Slf4j
-@RequestMapping("/payments")
+@RequestMapping(API_PREFIX + "/payments")
 public class PaymentController {
 
     @Autowired
@@ -27,8 +29,8 @@ public class PaymentController {
     @ApiOperation(value = "get payments", notes = "get all payments")
     @GetMapping
     public Result getAllPayments() {
-        if (log.isDebugEnabled()) {
-            log.debug("call get all payments");
+        if (log.isInfoEnabled()) {
+            log.info("call get all payments");
         }
         List<Payment> payments = paymentService.getAllPayments();
         return Result.success(payments);
