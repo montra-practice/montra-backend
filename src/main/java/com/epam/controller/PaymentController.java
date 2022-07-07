@@ -18,7 +18,7 @@ import java.util.List;
 import static com.epam.constant.Constants.API_PREFIX;
 
 @RestController
-@Api(tags = "PaymentController")
+@Api(tags = "Payment")
 @Slf4j
 @RequestMapping("/payments")
 public class PaymentController {

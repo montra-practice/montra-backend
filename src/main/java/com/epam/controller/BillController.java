@@ -24,7 +24,7 @@ import java.util.Optional;
 import static com.epam.constant.Constants.API_PREFIX;
 
 @RestController
-@Api(tags = "BillController")
+@Api(tags = "Bill")
 @Slf4j
 @RequestMapping("/bills")
 public class BillController {

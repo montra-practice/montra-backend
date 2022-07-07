@@ -21,7 +21,7 @@ import static com.epam.constant.Constants.API_PREFIX;
  * @date: 2022/7/6
  */
 @RestController
-@Api(tags = "CategoryController")
+@Api(tags = "Category")
 @Slf4j
 @RequestMapping("/categories")
 public class CategoryController {
