@@ -2,7 +2,6 @@ package com.epam.controller;
 
 import com.epam.dao.UserRepository;
 import com.epam.data.User;
-import com.epam.dto.UserDTO;
 import com.epam.utils.Result;
 import com.epam.utils.SpringUtils;
 import io.swagger.annotations.Api;
@@ -30,7 +29,7 @@ public class HelloController {
 
     @ApiOperation("hello")
     @GetMapping("/hello")
-    public Result hello(UserDTO userDTO) {
+    public Result hello() {
         User user = userDao.getById(1L);
         return Result.success("hello,world");
     }

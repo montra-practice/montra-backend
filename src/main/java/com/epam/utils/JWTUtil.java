@@ -15,7 +15,7 @@ import java.util.Date;
 public class JWTUtil {
 
     // TOKEN的有效期一小时（S）
-    private static final int TOKEN_TIME_OUT = 360000;
+    private static final int TOKEN_TIME_OUT = 3600;
 
     static final private String key = "test";
 

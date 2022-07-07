@@ -1,6 +1,7 @@
 package com.epam.controller;
 
-import com.epam.dto.UserDTO;
+import com.epam.dto.UserLoginDTO;
+import com.epam.dto.UserRegisterDTO;
 import com.epam.service.UserService;
 import com.epam.utils.Result;
 import io.swagger.annotations.Api;
@@ -12,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("user")
-@Api(tags = "用户模块")
+@Api(tags = "user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     /**
-     * 获取用户信息
+     * getUser
      *
      * @param id
      * @return
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     /**
-     * 获取用户信息
+     * login
      *
      * @param dto
      * @return
@@ -42,23 +43,23 @@ public class UserController {
      **/
     @PostMapping("/login")
     @ResponseBody
-    @ApiOperation("用户登录")
-    public Result login(@RequestBody @Validated UserDTO dto) {
+    @ApiOperation("login")
+    public Result login(@RequestBody @Validated UserLoginDTO dto) {
         return userService.login(dto);
     }
 
     /**
-     * 获取用户信息
+     * register
      *
      * @param dto
      * @return
      * @Author taoz
      * @Date 2022/7/6 11:13
      **/
-    @GetMapping("/register")
+    @PostMapping("/register")
     @ResponseBody
-    @ApiOperation("用户注册")
-    public Result register(@RequestBody UserDTO dto) {
+    @ApiOperation("register")
+    public Result register(@RequestBody UserRegisterDTO dto) {
         return userService.register(dto);
     }
 
