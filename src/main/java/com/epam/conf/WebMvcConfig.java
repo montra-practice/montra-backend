@@ -29,7 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor())//添加拦截器
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/**", "**/error/**", "/error", "/error/**", "/test/**")
+                .excludePathPatterns("/user/**", "**/error/**", "/error", "/error/**")
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/doc.html",
                         "**/error/**", "/swagger-ui.html/**");
         WebMvcConfigurer.super.addInterceptors(registry);

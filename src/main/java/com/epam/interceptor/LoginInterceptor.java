@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -23,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse response, Object o) throws Exception {
-        String token = httpServletRequest.getHeader("Authorization");
+        String token = httpServletRequest.getHeader("token");
         if (token == null) {
             throw new CustomException(ResultEnum.UNAUTHORIZED.getCode(), "未携带token");
         }
@@ -35,7 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String username = claims.get("username", String.class);
 
         User user = userDao.getById(id);
-        if (Objects.isNull(user) || !username.equals(user.getName())) {
+        if (null == user || !username.equals(user.getName())) {
             throw new CustomException(ResultEnum.UNAUTHORIZED.getCode(), "id or username error, please re login");
         }
 

@@ -1,26 +1,28 @@
 package com.epam.data;
 
 import lombok.Data;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
 @Entity
+@Proxy(lazy = false)
 @Table(name = "user")
 public class User implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
     @Column(nullable = false)
-    public String name;
+    private String name;
 
     @Column(nullable = false)
-    public String password;
+    private String password;
 
     @Column
-    public String email;
+    private String email;
 
 }
