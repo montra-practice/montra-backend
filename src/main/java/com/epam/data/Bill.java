@@ -34,4 +34,10 @@ public class Bill extends EntityBase implements Serializable {
     @Column
     private String endAfter;
 
+    /**
+     * Separated by comma
+     */
+    @Column
+    private String attachmentIds;
+
 }

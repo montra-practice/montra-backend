@@ -31,7 +31,7 @@ public class CategoryController {
 
     @ApiOperation(value = "get categories", notes = "get all categories")
     @GetMapping
-    public Result getAllCategories() {
+    public Result<List<Category>> getAllCategories() {
         if (log.isInfoEnabled()) {
             log.info("call get all categories");
         }

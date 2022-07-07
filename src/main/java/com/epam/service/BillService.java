@@ -10,11 +10,10 @@ import java.util.List;
 
 @Service
 public interface BillService {
-    Result saveBill(BillDto billDto);
+    Result<Boolean> saveBill(BillDto billDto);
 
-    Result getUserBillList();
+    Result<List<Bill>> getUserBillList();
 
-    Result getUserBill(Long id);
-
+    Result<Bill> getUserBill(Long id);
 
 }

@@ -9,6 +9,7 @@ import com.epam.service.BillService;
 import com.epam.service.PaymentService;
 import com.epam.utils.ContextUtil;
 import com.epam.utils.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -34,24 +35,23 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Result saveBill(BillDto billDto) {
+    public Result<Boolean> saveBill(BillDto billDto) {
 
         Bill bill = new Bill();
         BeanUtils.copyProperties(billDto, bill);
         bill.setCreator(getCurrentUserName());
         bill.setUserId(getCurrentUserId());
         bill.setGmtCreate(new Date());
+        List<Long> attachments = billDto.getAttachments();
+        bill.setAttachmentIds(StringUtils.join(attachments, ","));
 
         billRepository.save(bill);
 
-        ////TODO
-        List<Long> attachments = billDto.getAttachments();
-
-        return Result.success();
+        return Result.success(true);
     }
 
     @Override
-    public Result getUserBillList() {
+    public Result<List<Bill>> getUserBillList() {
 
         Bill bill = new Bill();
         bill.setUserId(getCurrentUserId());
@@ -62,7 +62,7 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Result getUserBill(Long id) {
+    public Result<Bill> getUserBill(Long id) {
 
         Long currentUserId = getCurrentUserId();
 

@@ -28,7 +28,7 @@ public class PaymentController {
 
     @ApiOperation(value = "get payments", notes = "get all payments")
     @GetMapping
-    public Result getAllPayments() {
+    public Result<List<Payment>> getAllPayments() {
         if (log.isInfoEnabled()) {
             log.info("call get all payments");
         }

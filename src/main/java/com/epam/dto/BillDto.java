@@ -1,5 +1,6 @@
 package com.epam.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -21,5 +22,6 @@ public class BillDto {
 
     private String endAfter;
 
+    @ApiModelProperty(value = "after uploading attachment, put returned id here")
     private List<Long> attachments;
 }
