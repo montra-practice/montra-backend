@@ -65,7 +65,7 @@ public class BillController {
         return result;
     }
 
-    @ApiOperation(value = "update attachment", notes = "")
+    @ApiOperation(value = "upload attachment", notes = "")
     @PostMapping("/attachments")
     public Result<Long> uploadAttachment(@RequestParam("file") MultipartFile file) throws IOException {
 
