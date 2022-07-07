@@ -15,6 +15,8 @@ public class BillDto {
 
     private Boolean repeat;
 
+    private String description;
+
     private String frequency;
 
     private String endAfter;

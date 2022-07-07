@@ -22,6 +22,9 @@ public class Bill extends EntityBase implements Serializable {
     @Column(nullable = false)
     private Long userId;
 
+    @Column
+    private String description;
+
     @Column(name="`repeat`")
     private Boolean repeat;
 
