@@ -4,6 +4,7 @@ public enum ResultEnum {
     SUCCESS(200, "Success"),
     FAIL(500, "Internal Server Error"),
     NOT_FOUND(404, "Not Found"),
+    PARAMETER_VALIDATION_FAILED(404, "parameter validation failed"),
     BAD_REQUEST(400, "Bad Request"),
     UNAUTHORIZED(401, "Unauthorized"),
     FORBIDDEN(403, "Forbidden"),

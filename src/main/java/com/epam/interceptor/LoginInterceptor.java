@@ -1,6 +1,8 @@
 package com.epam.interceptor;
 
+import com.epam.constant.ResultEnum;
 import com.epam.dao.UserRepository;
+import com.epam.data.User;
 import com.epam.exception.CustomException;
 import com.epam.utils.ContextUtil;
 import com.epam.utils.JWTUtil;
@@ -12,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import java.util.Objects;
 
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -23,25 +25,22 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse response, Object o) throws Exception {
         String token = httpServletRequest.getHeader("Authorization");
         if (token == null) {
-            throw new CustomException("未携带token");
+            throw new CustomException(ResultEnum.UNAUTHORIZED.getCode(), "未携带token");
         }
         Claims claims = JWTUtil.parseToken(token);
         if (null == claims || claims.isEmpty()) {
-            throw new CustomException("invalid token");
+            throw new CustomException(ResultEnum.UNAUTHORIZED.getCode(), "invalid token");
         }
         Long id = claims.get("userId", Long.class);
         String username = claims.get("username", String.class);
-        Long expireTime = claims.get("time", Long.class);
-        if (expireTime < new Date().getTime()) {
-            throw new RuntimeException("expire time, please re login");
+
+        User user = userDao.getById(id);
+        if (Objects.isNull(user) || !username.equals(user.getName())) {
+            throw new CustomException(ResultEnum.UNAUTHORIZED.getCode(), "id or username error, please re login");
         }
 
         ContextUtil.setUserID(id.toString());
         ContextUtil.setUsername(username);
-//        User user = userDao.getById(id);
-//        if (null == user || !username.equals(user.getUsername())){
-//            throw new RuntimeException("id or username error, please re login");
-//        }
 
         return true;
     }

@@ -1,11 +1,40 @@
 package com.epam.service;
 
-import com.epam.data.User;
+import com.epam.dto.UserDTO;
+import com.epam.utils.Result;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
 
-    User getUserInfo(Long id);
+    /**
+     * 获取用户信息
+     *
+     * @param id
+     * @return
+     * @Author taoz
+     * @Date 2022/7/6 11:13
+     **/
+    Result getUserInfo(Long id);
+
+    /**
+     * 用户登录
+     *
+     * @param userDTO
+     * @return
+     * @Author taoz
+     * @Date 2022/7/6 11:14
+     **/
+    Result login(UserDTO userDTO);
+
+    /**
+     * 用户注册
+     *
+     * @param userDTO
+     * @return
+     * @Author taoz
+     * @Date 2022/7/6 11:14
+     **/
+    Result register(UserDTO userDTO);
 
 }
