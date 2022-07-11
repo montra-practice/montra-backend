@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: montra-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: montra-app
+  template:
+    metadata:
+      labels:
+        app: montra-app
+    spec:
+      containers:
+        - name: montra-container
+          image: nickta/bench-practice:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: montra-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: montra-app
+  ports:
+    - protocol: TCP
+      port: 9080
+      targetPort: 8080
