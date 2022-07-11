@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,7 @@ public class BillController {
 
     @ApiOperation(value = "save bill", notes = "save bill")
     @PostMapping
-    public Result<Boolean> saveBill(@RequestBody BillDto billDto) {
+    public Result<Boolean> saveBill(@RequestBody @Validated BillDto billDto) {
         if (log.isInfoEnabled()) {
             log.info("saveBill:{}", billDto);
         }
