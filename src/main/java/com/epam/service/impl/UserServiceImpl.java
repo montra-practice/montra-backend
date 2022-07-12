@@ -7,6 +7,7 @@ import com.epam.dto.UserRegisterDTO;
 import com.epam.exception.CustomException;
 import com.epam.service.UserService;
 import com.epam.utils.JWTUtil;
+import com.epam.utils.MD5Utils;
 import com.epam.utils.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +56,12 @@ public class UserServiceImpl implements UserService {
         if (null == user) {
             throw new CustomException("username password error");
         }
-        if (userLoginDTO.getPassword().equals(user.getPassword())) {
+        if (MD5Utils.inputPassToFormPass(userLoginDTO.getPassword()).equals(user.getPassword())) {
             String token = JWTUtil.createToken(user.getId(), user.getName());
             return Result.success(token);
+        } else {
+            throw new CustomException("username password error");
         }
-        return Result.success();
     }
 
     /**
@@ -81,7 +83,7 @@ public class UserServiceImpl implements UserService {
         }
         User userTosave = new User();
         userTosave.setName(userRegisterDTO.getUsername());
-        userTosave.setPassword(userRegisterDTO.getPassword());
+        userTosave.setPassword(MD5Utils.inputPassToFormPass(userRegisterDTO.getPassword()));
         userRepository.save(userTosave);
         return Result.success();
     }
