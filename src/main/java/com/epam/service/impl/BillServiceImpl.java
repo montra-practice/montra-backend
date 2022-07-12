@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -51,13 +52,15 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Result<List<Bill>> getUserBillList() {
+    public Result<List<Bill>> getUserRecentBillList() {
 
         Bill bill = new Bill();
         bill.setUserId(getCurrentUserId());
         Example<Bill> example = Example.of(bill);
 
-        List<Bill> bills = billRepository.findAll(example);
+        Sort orderBy = Sort.sort(Bill.class).by(Bill::getGmtCreate).descending();
+
+        List<Bill> bills = billRepository.findAll(example, orderBy);
         return Result.success(bills);
     }
 

@@ -2,11 +2,9 @@ package com.epam.controller;
 
 import com.epam.data.Attachment;
 import com.epam.data.Bill;
-import com.epam.data.Payment;
 import com.epam.dto.BillDto;
 import com.epam.service.AttachmentService;
 import com.epam.service.BillService;
-import com.epam.service.PaymentService;
 import com.epam.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,8 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
-import static com.epam.constant.Constants.API_PREFIX;
 
 @RestController
 @Api(tags = "Bill")
@@ -46,17 +42,17 @@ public class BillController {
         return result;
     }
 
-    @ApiOperation(value = "get user bill list", notes = "get user bill list")
-    @GetMapping
-    public Result<List<Bill>> getUserBillList() {
+    @ApiOperation(value = "get user bill list", notes = "get user recent bill transaction")
+    @GetMapping("/recent")
+    public Result<List<Bill>> getUserRecentBillList() {
         if (log.isInfoEnabled()) {
-            log.info("getUserBillList");
+            log.info("getUserRecentBillList");
         }
-        Result result = billService.getUserBillList();
+        Result result = billService.getUserRecentBillList();
         return result;
     }
 
-    @ApiOperation(value = "get user bill", notes = "get user bill")
+    @ApiOperation(value = "get user bill", notes = "get user bill by id")
     @GetMapping("/{id}")
     public Result<Bill> getUserBill(@PathVariable Long id) {
         if (log.isInfoEnabled()) {
