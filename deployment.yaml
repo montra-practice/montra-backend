@@ -18,6 +18,15 @@ spec:
           image: nickta/bench-practice:0.0.1-SNAPSHOT
           ports:
             - containerPort: 8080
+#          livenessProbe:
+#            httpGet:
+#              path: /api/v1/doc.html
+#              port: 8080
+#            initialDelaySeconds: 10
+#            periodSeconds: 5
+          env:
+            - name: TZ
+              value: Asia/Shanghai
 ---
 apiVersion: v1
 kind: Service

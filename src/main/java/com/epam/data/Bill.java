@@ -32,7 +32,10 @@ public class Bill extends EntityBase implements Serializable {
     private String frequency;
 
     @Column
-    private String endAfter;
+    private Date frequencyDate;
+
+    @Column
+    private Date endAfterDate;
 
     /**
      * Separated by comma
