@@ -49,7 +49,7 @@ public class BillController {
 
     @ApiOperation(value = "get user bill list", notes = "get user recent bill transaction")
     @GetMapping()
-    public Result<List<Bill>> getUserRecentBillList(@ApiParam("recent transaction - date:desc") String sort, @RequestParam(defaultValue = "50") int limit) {
+    public Result<List<Bill>> getUserBillList(@ApiParam("recent transaction - date:desc") String sort, @RequestParam(defaultValue = "50") int limit) {
         if (log.isInfoEnabled()) {
             log.info("getUserRecentBillList");
         }
