@@ -1,5 +1,6 @@
 package com.epam.controller;
 
+import com.epam.annotation.NoRepeatSubmit;
 import com.epam.dto.UserLoginDTO;
 import com.epam.dto.UserRegisterDTO;
 import com.epam.service.UserService;
@@ -44,6 +45,7 @@ public class UserController {
     @PostMapping("/login")
     @ResponseBody
     @ApiOperation("login")
+    @NoRepeatSubmit
     public Result login(@RequestBody @Validated UserLoginDTO dto) {
         return userService.login(dto);
     }
@@ -59,6 +61,7 @@ public class UserController {
     @PostMapping("/register")
     @ResponseBody
     @ApiOperation("register")
+    @NoRepeatSubmit
     public Result register(@RequestBody UserRegisterDTO dto) {
         return userService.register(dto);
     }

@@ -1,7 +1,9 @@
 package com.epam.controller;
 
+import com.epam.annotation.RedisLock;
 import com.epam.dao.UserRepository;
-import com.epam.data.User;
+import com.epam.redis.RedissonUtil;
+import com.epam.utils.RedisUtil;
 import com.epam.utils.Result;
 import com.epam.utils.SpringUtils;
 import io.swagger.annotations.Api;
@@ -27,11 +29,18 @@ public class HelloController {
     @Autowired
     private SpringUtils springUtils;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private RedissonUtil redissonUtil;
+
     @ApiOperation("hello")
     @GetMapping("/hello")
+    @RedisLock
     public Result hello() {
-        User user = userDao.getById(1L);
-        return Result.success("hello,world");
+        long views = redisUtil.incr("views", 1);
+        return Result.success("hello,views:" + views);
     }
 
 }
