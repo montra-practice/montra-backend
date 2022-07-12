@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @RestController
 @Api(tags = "Bill")
@@ -53,6 +56,8 @@ public class BillController {
         if (log.isInfoEnabled()) {
             log.info("getUserRecentBillList");
         }
+
+        Assert.isTrue(limit < 500, "limit must less than 500");
 
         Map<String, Object> param = new HashMap() {{
             put("sort", sort);

@@ -128,6 +128,10 @@
             <artifactId>guava</artifactId>
             <version>20.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+        </dependency>
         <!--		<dependency>-->
         <!--			<groupId>org.singledog.spring.boot</groupId>-->
         <!--			<artifactId>mybatis-spring-boot-starter</artifactId>-->
