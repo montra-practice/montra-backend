@@ -9,17 +9,14 @@ import com.epam.service.BillService;
 import com.epam.service.PaymentService;
 import com.epam.utils.ContextUtil;
 import com.epam.utils.Result;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -52,16 +49,17 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Result<List<Bill>> getUserRecentBillList() {
+    public Result<List<Bill>> getUserBillList(Map<String, Object> param) {
 
         Bill bill = new Bill();
         bill.setUserId(getCurrentUserId());
         Example<Bill> example = Example.of(bill);
 
-        Sort orderBy = Sort.sort(Bill.class).by(Bill::getGmtCreate).descending();
+        Sort sort = Sort.sort(Bill.class).by(Bill::getGmtCreate).descending();
+        Pageable pageable = PageRequest.of(0, MapUtils.getIntValue(param, "limit"), sort);
 
-        List<Bill> bills = billRepository.findAll(example, orderBy);
-        return Result.success(bills);
+        Page<Bill> bills = billRepository.findAll(example, pageable);
+        return Result.success(bills.getContent());
     }
 
     @Override

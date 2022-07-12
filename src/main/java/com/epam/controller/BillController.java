@@ -6,8 +6,10 @@ import com.epam.dto.BillDto;
 import com.epam.service.AttachmentService;
 import com.epam.service.BillService;
 import com.epam.utils.Result;
+import com.google.common.collect.ImmutableMap;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,8 +18,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -43,12 +48,18 @@ public class BillController {
     }
 
     @ApiOperation(value = "get user bill list", notes = "get user recent bill transaction")
-    @GetMapping("/recent")
-    public Result<List<Bill>> getUserRecentBillList() {
+    @GetMapping()
+    public Result<List<Bill>> getUserRecentBillList(@ApiParam("recent transaction - date:desc") String sort, @RequestParam(defaultValue = "50") int limit) {
         if (log.isInfoEnabled()) {
             log.info("getUserRecentBillList");
         }
-        Result result = billService.getUserRecentBillList();
+
+        Map<String, Object> param = new HashMap() {{
+            put("sort", sort);
+            put("limit", limit);
+        }};
+
+        Result result = billService.getUserBillList(param);
         return result;
     }
 
