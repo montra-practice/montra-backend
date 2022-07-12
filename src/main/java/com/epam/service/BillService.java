@@ -6,12 +6,13 @@ import com.epam.utils.Result;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface BillService {
     Result<Boolean> saveBill(BillDto billDto);
 
-    Result<List<Bill>> getUserRecentBillList();
+    Result<List<Bill>> getUserBillList(Map<String, Object> param);
 
     Result<Bill> getUserBill(Long id);
 
