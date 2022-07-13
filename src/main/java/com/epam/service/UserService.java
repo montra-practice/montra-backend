@@ -9,16 +9,6 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     /**
-     * 获取用户信息
-     *
-     * @param id
-     * @return
-     * @Author taoz
-     * @Date 2022/7/6 11:13
-     **/
-    Result getUserInfo(Long id);
-
-    /**
      * 用户登录
      *
      * @param userLoginDTO
