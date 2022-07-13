@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.io.IOException;
 
@@ -16,6 +17,7 @@ import java.io.IOException;
  * @date: 2022/7/12 10:01
  */
 @Configuration
+@Profile("!unittest")
 public class RedissonConfig {
 
     @Autowired
