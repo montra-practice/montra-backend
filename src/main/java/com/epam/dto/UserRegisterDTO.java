@@ -27,4 +27,8 @@ public class UserRegisterDTO {
     @Email(message = "邮箱格式不正确")
     private String email;
 
+    @ApiModelProperty(value = "验证码", required = true)
+    @NotEmpty(message = "验证码不能为空")
+    private String verifyCode;
+
 }

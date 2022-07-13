@@ -6,6 +6,7 @@ import com.epam.dto.UserLoginDTO;
 import com.epam.dto.UserRegisterDTO;
 import com.epam.exception.CustomException;
 import com.epam.service.UserService;
+import com.epam.utils.EmailUtil;
 import com.epam.utils.JWTUtil;
 import com.epam.utils.MD5Utils;
 import com.epam.utils.Result;
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    EmailUtil emailUtil;
 
     /**
      * 获取用户信息
@@ -80,6 +84,9 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findOneByName(userRegisterDTO.getUsername());
         if (null != user) {
             throw new CustomException("user exist");
+        }
+        if (!emailUtil.verifyCode(userRegisterDTO.getEmail(), userRegisterDTO.getVerifyCode())) {
+            throw new CustomException("verifyCode is incorrect！");
         }
         User userTosave = new User();
         userTosave.setName(userRegisterDTO.getUsername());
