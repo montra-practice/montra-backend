@@ -1,8 +1,7 @@
 package com.epam.utils;
 
-import com.epam.exception.CustomException;
+import com.epam.data.User;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -33,9 +32,10 @@ public class EmailUtil {
     @Value("${spring.mail.count}")
     private int count;
 
-    public boolean sendMail(String mailTo) {
+    public String sendMail(String mailTo) {
         MimeMessage message = mailSender.createMimeMessage();
-        while (count-- > 0) {
+        int countLocal = count;
+        while (countLocal-- > 0) {
             try {
                 MimeMessageHelper helper = new MimeMessageHelper(message, true);
                 String codeNum = "";
@@ -60,24 +60,16 @@ public class EmailUtil {
                 //邮件发送者，必须和配置文件里的一样，不然授权码匹配不上
                 helper.setFrom(mailFrom);
                 mailSender.send(message);
-                redisUtil.set(mailTo, codeNum, 300);
-                return true;
+                return codeNum;
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean verifyCode(String mailTo, String code) {
-        String codeOld = redisUtil.get(mailTo).toString();
-        if (StringUtils.isBlank(codeOld)) {
-            throw new CustomException("verifyCode has expired！");
-        }
-        if (!code.equals(codeOld)) {
-            throw new CustomException("verifyCode is incorrect！");
-        }
-        return true;
+    public User verifyCode(String code) {
+        return (User) redisUtil.get(code);
     }
 
 }

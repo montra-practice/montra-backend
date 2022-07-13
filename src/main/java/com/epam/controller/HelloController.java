@@ -1,6 +1,7 @@
 package com.epam.controller;
 
 import com.epam.dao.UserRepository;
+import com.epam.data.User;
 import com.epam.redis.RedissonUtil;
 import com.epam.utils.EmailUtil;
 import com.epam.utils.RedisUtil;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 /**
  * @description: test
@@ -46,13 +45,12 @@ public class HelloController {
 
     @ApiOperation("hello")
     @GetMapping("/hello")
-    public Result hello(@Email(message = "邮箱格式不正确")
-                        @NotEmpty(message = "邮箱")
-                        String mailTo) throws MessagingException {
-        if (emailUtil.sendMail(mailTo)) {
-            return Result.success();
-        }
-        return Result.fail("发送失败");
+    public Result hello() throws MessagingException {
+        User user = new User();
+        user.setName("taozhi");
+        redisUtil.set("key", user);
+        User value = (User) redisUtil.get("key");
+        return Result.success(value);
     }
 
 }

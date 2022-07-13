@@ -6,15 +6,9 @@ import com.epam.dto.UserLoginDTO;
 import com.epam.dto.UserRegisterDTO;
 import com.epam.exception.CustomException;
 import com.epam.service.UserService;
-import com.epam.utils.EmailUtil;
-import com.epam.utils.JWTUtil;
-import com.epam.utils.MD5Utils;
-import com.epam.utils.Result;
-import org.apache.commons.lang3.StringUtils;
+import com.epam.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -25,23 +19,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     EmailUtil emailUtil;
 
-    /**
-     * 获取用户信息
-     *
-     * @param id
-     * @return
-     * @Author taoz
-     * @Date 2022/7/6 11:13
-     **/
-    @Override
-    public Result getUserInfo(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
-            return null;
-        }
-        User userInfo = user.get();
-        return Result.success(user);
-    }
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 用户登录
@@ -53,10 +32,7 @@ public class UserServiceImpl implements UserService {
      **/
     @Override
     public Result login(UserLoginDTO userLoginDTO) {
-        if (StringUtils.isAnyEmpty(userLoginDTO.getUsername(), userLoginDTO.getPassword())) {
-            throw new CustomException("username password null");
-        }
-        User user = userRepository.findOneByName(userLoginDTO.getUsername());
+        User user = userRepository.findOneByEmail(userLoginDTO.getEmail());
         if (null == user) {
             throw new CustomException("username password error");
         }
@@ -78,20 +54,16 @@ public class UserServiceImpl implements UserService {
      **/
     @Override
     public Result register(UserRegisterDTO userRegisterDTO) {
-        if (StringUtils.isAnyEmpty(userRegisterDTO.getUsername(), userRegisterDTO.getPassword())) {
-            throw new CustomException("username password null");
-        }
-        User user = userRepository.findOneByName(userRegisterDTO.getUsername());
+        User user = userRepository.findOneByEmail(userRegisterDTO.getEmail());
         if (null != user) {
             throw new CustomException("user exist");
         }
-        if (!emailUtil.verifyCode(userRegisterDTO.getEmail(), userRegisterDTO.getVerifyCode())) {
-            throw new CustomException("verifyCode is incorrect！");
-        }
+        String code = emailUtil.sendMail(userRegisterDTO.getEmail());
         User userTosave = new User();
         userTosave.setName(userRegisterDTO.getUsername());
         userTosave.setPassword(MD5Utils.inputPassToFormPass(userRegisterDTO.getPassword()));
-        userRepository.save(userTosave);
+        userTosave.setEmail(userRegisterDTO.getEmail());
+        redisUtil.set(code, userTosave, 300);
         return Result.success();
     }
 }

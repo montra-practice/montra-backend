@@ -1,8 +1,11 @@
 package com.epam.controller;
 
 import com.epam.annotation.NoRepeatSubmit;
+import com.epam.dao.UserRepository;
+import com.epam.data.User;
 import com.epam.dto.UserLoginDTO;
 import com.epam.dto.UserRegisterDTO;
+import com.epam.dto.VerifyDTO;
 import com.epam.service.UserService;
 import com.epam.utils.EmailUtil;
 import com.epam.utils.Result;
@@ -11,10 +14,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("user")
@@ -27,19 +32,8 @@ public class UserController {
     @Autowired
     EmailUtil emailUtil;
 
-    /**
-     * getUser
-     *
-     * @param id
-     * @return
-     * @Author taoz
-     * @Date 2022/7/6 11:13
-     **/
-    @GetMapping("/{id}")
-    @ResponseBody
-    public Result getUser(@PathVariable Long id) {
-        return userService.getUserInfo(id);
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * login
@@ -69,30 +63,27 @@ public class UserController {
     @ResponseBody
     @ApiOperation("register")
     @NoRepeatSubmit
-    public Result register(@RequestBody UserRegisterDTO dto) {
+    public Result register(@RequestBody @Validated UserRegisterDTO dto) {
         return userService.register(dto);
     }
 
     /**
      * verify
      *
-     * @param emailAddress
-     * @return
      * @Author taoz
      * @Date 2022/7/13 13:45
      **/
-    @GetMapping("/verify")
+    @PostMapping("/verify")
     @ResponseBody
     @ApiOperation("verify")
     @NoRepeatSubmit
-    public Result verify(@Email(message = "邮箱格式不正确")
-                         @NotEmpty(message = "邮箱")
-                         String emailAddress) {
-        if (emailUtil.sendMail(emailAddress)) {
+    public Result verify(@RequestBody VerifyDTO verifyDTO) {
+        User user = emailUtil.verifyCode(verifyDTO.getVerifyCode());
+        if (Objects.nonNull(user)) {
+            userRepository.save(user);
             return Result.success();
-        } else {
-            return Result.fail("Email sending failed");
         }
+        return Result.fail("验证失败");
     }
 
 }

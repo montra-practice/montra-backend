@@ -21,14 +21,12 @@ public class UserRegisterDTO {
     private String username;
 
     @ApiModelProperty(value = "用户密码", required = true)
+    @NotEmpty(message = "password不能为空")
     private String password;
 
     @ApiModelProperty(value = "用户邮箱", required = true)
     @Email(message = "邮箱格式不正确")
+    @NotEmpty(message = "email不能为空")
     private String email;
-
-    @ApiModelProperty(value = "验证码", required = true)
-    @NotEmpty(message = "验证码不能为空")
-    private String verifyCode;
 
 }
