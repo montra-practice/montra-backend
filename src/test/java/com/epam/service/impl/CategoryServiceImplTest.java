@@ -26,4 +26,13 @@ class CategoryServiceImplTest extends AbstractTest {
 
         assertThat(list.size(), equalTo(2));
     }
+
+
+    @Test
+    void testGetAllCategories_empty() {
+
+        List<Category> list = categoryService.getAllCategories();
+
+        assertThat(list.size(), equalTo(0));
+    }
 }
