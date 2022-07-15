@@ -20,19 +20,13 @@ public class MyDbUnitTestExecutionListener extends TransactionDbUnitTestExecutio
     @Autowired
     private DataSource dataSource;
 
-    private static final List<String> IGNORED_TABLES = Lists.newArrayList(
-            "TABLE_A",
-            "TABLE_B"
-    );
+    private static final List<String> IGNORED_TABLES = Lists.newArrayList();
 
     private static final String SQL_DISABLE_REFERENTIAL_INTEGRITY = "SET REFERENTIAL_INTEGRITY FALSE";
     private static final String SQL_ENABLE_REFERENTIAL_INTEGRITY = "SET REFERENTIAL_INTEGRITY TRUE";
 
     private static final String SQL_FIND_TABLE_NAMES = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='%s'";
-    private static final String SQL_TRUNCATE_TABLE = "TRUNCATE TABLE %s.%s";
-
-    private static final String SQL_FIND_SEQUENCE_NAMES = "SELECT SEQUENCE_NAME FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA='%s'";
-    private static final String SQL_RESTART_SEQUENCE = "ALTER SEQUENCE %s.%s RESTART WITH 1";
+    private static final String SQL_TRUNCATE_TABLE = "TRUNCATE TABLE %s.%s RESTART IDENTITY";
 
     private String schema = "PUBLIC";
 
@@ -66,17 +60,6 @@ public class MyDbUnitTestExecutionListener extends TransactionDbUnitTestExecutio
                 if (!IGNORED_TABLES.contains(table)) {
                     statement.executeUpdate(String.format(SQL_TRUNCATE_TABLE, schema, table));
                 }
-            }
-
-            Set<String> sequences = new HashSet<>();
-            try (ResultSet resultSet = statement.executeQuery(String.format(SQL_FIND_SEQUENCE_NAMES, schema))) {
-                while (resultSet.next()) {
-                    sequences.add(resultSet.getString(1));
-                }
-            }
-
-            for (String sequence : sequences) {
-                statement.executeUpdate(String.format(SQL_RESTART_SEQUENCE, schema, sequence));
             }
 
             statement.execute(SQL_ENABLE_REFERENTIAL_INTEGRITY);
