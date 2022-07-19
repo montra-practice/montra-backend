@@ -1,5 +1,7 @@
 package com.epam.controller;
 
+import com.epam.annotation.APILimit;
+import com.epam.annotation.SysLog;
 import com.epam.dao.UserRepository;
 import com.epam.data.User;
 import com.epam.redis.RedissonUtil;
@@ -9,6 +11,7 @@ import com.epam.utils.Result;
 import com.epam.utils.SpringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,14 +46,18 @@ public class HelloController {
     @Autowired
     EmailUtil emailUtil;
 
+    @Autowired
+    private RedissonClient redissonClient;
+
     @ApiOperation("hello")
     @GetMapping("/hello")
+    @SysLog("hello")
+    @APILimit
     public Result hello() throws MessagingException {
         User user = new User();
-        user.setName("taozhi");
-        redisUtil.set("key", user);
-        User value = (User) redisUtil.get("key");
-        return Result.success(value);
+        user.setName("djskf");
+        redisUtil.set("user", user);
+        return Result.success(redisUtil.get("user"));
     }
 
 }

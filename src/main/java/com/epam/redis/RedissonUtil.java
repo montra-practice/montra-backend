@@ -1,11 +1,11 @@
 package com.epam.redis;
 
+import org.redisson.Redisson;
 import org.redisson.api.RFuture;
 import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedissonUtil {
 
-    @Autowired
-    private RedissonClient redissonClient;
+    @Resource
+    private Redisson redissonClient;
 
     /**
      * 异步加锁

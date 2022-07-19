@@ -1,5 +1,6 @@
 package com.epam.service.impl;
 
+import com.epam.annotation.RedisLock;
 import com.epam.dao.UserRepository;
 import com.epam.data.User;
 import com.epam.dto.UserLoginDTO;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
      * @Author taoz
      * @Date 2022/7/6 11:14
      **/
+    @RedisLock
     @Override
     public Result login(UserLoginDTO userLoginDTO) {
         User user = userRepository.findOneByEmail(userLoginDTO.getEmail());

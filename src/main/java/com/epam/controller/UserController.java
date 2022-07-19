@@ -1,6 +1,7 @@
 package com.epam.controller;
 
 import com.epam.annotation.NoRepeatSubmit;
+import com.epam.annotation.SysLog;
 import com.epam.dao.UserRepository;
 import com.epam.data.User;
 import com.epam.dto.UserLoginDTO;
@@ -47,6 +48,7 @@ public class UserController {
     @ResponseBody
     @ApiOperation("login")
     @NoRepeatSubmit
+    @SysLog("用户登录")
     public Result login(@RequestBody @Validated UserLoginDTO dto) {
         return userService.login(dto);
     }
