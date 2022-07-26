@@ -31,13 +31,13 @@ spring:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
   redis:
-    host: 122.112.234.17
+    host: 101.132.123.23
     port: 3302
     server:
-      pattern: cluster
+      pattern: single
     cluster:
       nodes:
-        - 101.132.123.23:6380
+        - 101.132.123.23:6379
     #    password: 1234
     database: 1
     timeout: 10000
